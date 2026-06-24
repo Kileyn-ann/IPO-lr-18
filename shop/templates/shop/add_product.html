@@ -1,1 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить товар</title>
+</head>
+<body>
 
+<h1>Добавление товара</h1>
+
+<p>
+    Заполните информацию о товаре.
+</p>
+
+<form method="post" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Сохранить товар
+    </button>
+
+</form>
+
+<br>
+
+<a href="/">
+    Вернуться на главную
+</a>
+
+</body>
+</html>
