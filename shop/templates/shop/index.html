@@ -1,1 +1,26 @@
+{% extends 'base.html' %}
 
+{% block content %}
+
+<div class="text-center mb-5">
+    <h1>Добро пожаловать в магазин</h1>
+    <p>Лучшие товары по лучшим ценам</p>
+    <a href="/catalog/" class="btn btn-primary">Перейти в каталог</a>
+</div>
+
+<h3>Популярные товары</h3>
+<div class="row">
+    {% for product in products %}
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5>{{ product.name }}</h5>
+                    <p>{{ product.price }} ₽</p>
+                    <a href="/catalog/{{ product.id }}/" class="btn btn-sm btn-primary">Подробнее</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
