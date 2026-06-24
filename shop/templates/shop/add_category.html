@@ -1,1 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить категорию</title>
+</head>
+<body>
 
+<h1>Добавление категории</h1>
+
+<p>
+    Введите данные новой категории.
+</p>
+
+<form method="post">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Сохранить
+    </button>
+
+</form>
+
+<br>
+
+<a href="/">
+    Вернуться на главную
+</a>
+
+</body>
+</html>
