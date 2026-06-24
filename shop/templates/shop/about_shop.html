@@ -1,1 +1,408 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>О магазине</title>
+</head>
+<body>
 
+<h1>О магазине</h1>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Лабораторная работа №16 · Django</title>
+  <!-- Шрифты и базовая стилизация -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f6f9fc 0%, #edf2f7 100%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 2rem 1.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      line-height: 1.6;
+      color: #1a202c;
+    }
+
+    .lab-card {
+      max-width: 1000px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-radius: 2.5rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.05);
+      padding: 2.8rem 3rem;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 1rem; }
+      .lab-card { padding: 1.8rem 1.2rem; border-radius: 1.8rem; }
+    }
+
+    /* Типографика */
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #0b3b5c, #1a6b8a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+      margin-bottom: 0.25rem;
+      border-bottom: 3px solid rgba(26, 107, 138, 0.2);
+      padding-bottom: 0.25rem;
+    }
+
+    .subhead {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #2c5282;
+      background: #e2edf7;
+      display: inline-block;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      margin-bottom: 1.8rem;
+      letter-spacing: 0.3px;
+      border: 1px solid rgba(44, 82, 130, 0.15);
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: #0b3b5c;
+      margin: 2rem 0 1rem 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h2:first-of-type {
+      margin-top: 0.25rem;
+    }
+
+    h2::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 28px;
+      background: linear-gradient(180deg, #2b6c8f, #4a9bbf);
+      border-radius: 12px;
+      margin-right: 8px;
+    }
+
+    h3 {
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: #1e4a6b;
+      margin: 1.6rem 0 0.6rem 0;
+    }
+
+    ul, ol {
+      padding-left: 1.6rem;
+      margin: 0.6rem 0 1rem 0;
+    }
+
+    li {
+      margin-bottom: 0.4rem;
+      padding-left: 0.2rem;
+    }
+
+    p {
+      margin: 0.8rem 0;
+    }
+
+    /* Сетка для целей/задач */
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.8rem;
+      margin: 1.2rem 0 0.8rem 0;
+    }
+
+    @media (max-width: 700px) {
+      .grid-2col {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+    }
+
+    .block-goal, .block-task {
+      background: white;
+      border-radius: 1.6rem;
+      padding: 1.6rem 1.8rem;
+      box-shadow: 0 6px 18px rgba(0, 20, 40, 0.06);
+      border: 1px solid rgba(0,0,0,0.02);
+      transition: 0.15s;
+    }
+
+    .block-goal {
+      background: #f0f7fe;
+      border-left: 6px solid #2b6c8f;
+    }
+
+    .block-task {
+      background: #f5faff;
+      border-left: 6px solid #4a9bbf;
+    }
+
+    .block-goal h3, .block-task h3 {
+      margin-top: 0;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      color: #1a4b66;
+    }
+
+    .block-goal ul, .block-task ol {
+      margin-top: 0.2rem;
+      margin-bottom: 0;
+    }
+
+    .block-goal li, .block-task li {
+      margin-bottom: 0.3rem;
+    }
+
+    /* Список задач (ход работы) */
+    .steps-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.2rem 0 0.2rem 0;
+      counter-reset: step-counter;
+    }
+
+    .steps-list li {
+      counter-increment: step-counter;
+      padding: 0.9rem 1.2rem 0.9rem 3.8rem;
+      position: relative;
+      background: #ffffffcc;
+      backdrop-filter: blur(2px);
+      border-radius: 1.2rem;
+      margin-bottom: 0.8rem;
+      border: 1px solid #e9edf2;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+      transition: all 0.1s ease;
+      font-weight: 450;
+      line-height: 1.5;
+    }
+
+    .steps-list li::before {
+      content: counter(step-counter);
+      position: absolute;
+      left: 1rem;
+      top: 0.75rem;
+      font-weight: 700;
+      font-size: 1.2rem;
+      background: #1f5a7a;
+      color: white;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 40px;
+      box-shadow: 0 4px 8px rgba(26, 107, 138, 0.2);
+    }
+
+    .steps-list li:hover {
+      background: #ffffff;
+      border-color: #b8d1e5;
+      box-shadow: 0 6px 14px rgba(26, 107, 138, 0.08);
+    }
+
+    /* акцент на кодовые слова */
+    .code-inline {
+      background: #eef4fa;
+      padding: 0.2rem 0.6rem;
+      border-radius: 30px;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.85rem;
+      color: #0e3c57;
+      border: 1px solid #d5e0ec;
+      white-space: nowrap;
+    }
+
+    .badge-django {
+      background: #0c4b6b;
+      color: white;
+      padding: 0.1rem 0.9rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-right: 0.4rem;
+    }
+
+    hr {
+      margin: 2rem 0 0.2rem 0;
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, #d0e1ed, transparent);
+    }
+
+    .footer-note {
+      margin-top: 2.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      font-size: 0.9rem;
+      color: #2d4b64;
+      border-top: 1px solid #dae6f0;
+      padding-top: 1.5rem;
+    }
+
+    .footer-note span {
+      background: #eaf1f9;
+      padding: 0.2rem 1.2rem;
+      border-radius: 30px;
+    }
+
+    .highlight {
+      background: #d9e9f5;
+      padding: 0.1rem 0.4rem;
+      border-radius: 12px;
+      font-weight: 500;
+    }
+
+    /* мелкие правки */
+    .mt-1 { margin-top: 0.5rem; }
+    .mb-0 { margin-bottom: 0; }
+  </style>
+</head>
+<body>
+  <div class="lab-card">
+
+    <!-- Шапка -->
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline;">
+      <h1>Лабораторная работа №16</h1>
+      <span class="subhead">Создание и настройка Django</span>
+    </div>
+    <p style="font-size: 1.1rem; font-weight: 500; color: #1e3f57; margin-top: -0.2rem;">
+      <span class="badge-django">Django</span> Проект интернет-магазина · базовый старт
+    </p>
+
+    <!-- Цели и задачи (две колонки) -->
+    <div class="grid-2col">
+      <div class="block-goal">
+        <h3> Цели</h3>
+        <ul>
+          <li>Освоить процесс создания веб-приложения с использованием фреймворка Django.</li>
+          <li>Научить базовой настройке проекта и приложений для дальнейшей разработки интернет-магазина.</li>
+        </ul>
+      </div>
+      <div class="block-task">
+        <h3> Задачи</h3>
+        <ol>
+          <li>Установить и настроить окружение для работы с Django.</li>
+          <li>Создать новый проект Django через командную строку.</li>
+          <li>Настроить базовые параметры проекта (<span class="code-inline">settings.py</span>: база данных, часовой пояс, язык).</li>
+          <li>Создать приложение внутри проекта для управления функционалом магазина.</li>
+          <li>Подключить приложение к проекту и проверить его работоспособность.</li>
+          <li>Настроить базовый URL-маршрутизатор для приложения.</li>
+          <li>Проверить запуск сервера разработки и отображение стартовой страницы.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Ход работы -->
+    <h2>Ход работы</h2>
+    <p style="margin-bottom: 0.2rem; opacity: 0.9;">Выполните последовательные шаги, следуя инструкции:</p>
+
+    <ol class="steps-list">
+      <li><strong>Изучите теоретические сведения</strong> — ознакомьтесь с основами Django, структурой проекта и приложения.</li>
+      <li><strong>Выполните общие и индивидуальные задания</strong> в тетради для лабораторных и практических работ или на рабочем компьютере.</li>
+      <li><strong>Сдайте выполненные задания</strong> в <span class="highlight">Classroom</span> или сдайте тетрадь преподавателю.</li>
+      <li><strong>Защитите выполненные задания</strong> — будьте готовы объяснить код и настройки.</li>
+    </ol>
+
+    <!-- Детали настройки (доп. блок) -->
+    <div style="background: #e5f0fa; border-radius: 1.4rem; padding: 1.4rem 1.8rem; margin: 1.8rem 0 0.4rem 0; border: 1px solid #c6dcee;">
+      <h3 style="margin-top: 0; display: flex; gap: 0.5rem; align-items: center;">
+        <span style="font-size: 1.5rem;">⚙️</span> Базовые параметры <span style="font-weight: 400; font-size: 0.9rem; color: #1f4b67;">(settings.py)</span>
+      </h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 1.2rem 2rem; font-size: 0.95rem;">
+        <div><span class="code-inline">DATABASES</span> — настройка SQLite (по умолчанию)</div>
+        <div><span class="code-inline">TIME_ZONE</span> = <code>'Europe/Moscow'</code> (или ваш часовой пояс)</div>
+        <div><span class="code-inline">LANGUAGE_CODE</span> = <code>'ru-RU'</code></div>
+        <div><span class="code-inline">INSTALLED_APPS</span> — добавить созданное приложение</div>
+      </div>
+    </div>
+
+    <!-- Мини-чеклист запуска -->
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem 3rem; background: #ffffffcc; border-radius: 2rem; padding: 1.2rem 1.8rem; margin: 1.8rem 0 0.2rem 0; border: 1px solid #d6e3ef;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="background: #1f5a7a; color: white; border-radius: 40px; padding: 0 12px; font-weight: 600;">1</span>
+        <span><span class="code-inline">python manage.py runserver</span> — запуск сервера</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="background: #1f5a7a; color: white; border-radius: 40px; padding: 0 12px; font-weight: 600;">2</span>
+        <span>Проверка <span class="code-inline">http://127.0.0.1:8000/</span></span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="background: #1f5a7a; color: white; border-radius: 40px; padding: 0 12px; font-weight: 600;">3</span>
+        <span>URL-маршруты в <span class="code-inline">urls.py</span> (проект + приложение)</span>
+      </div>
+    </div>
+
+    <!-- Дополнительная заметка о структуре -->
+    <hr>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.8rem 2rem; justify-content: space-between; align-items: center; font-size: 0.95rem; padding-top: 0.4rem;">
+      <div><span style="font-weight: 600;">Проект:</span> <span class="code-inline">django-admin startproject myshop</span></div>
+      <div><span style="font-weight: 600;">Приложение:</span> <span class="code-inline">python manage.py startapp store</span></div>
+      <div><span style="font-weight: 600;">Миграции:</span> <span class="code-inline">python manage.py migrate</span></div>
+    </div>
+
+    <!-- Footer / подпись -->
+    <div class="footer-note">
+      <span> Лабораторная работа №16 · Django</span>
+      <span style="background: transparent; padding: 0;">Выполнено в рамках курса</span>
+      <span> готово к сдаче</span>
+    </div>
+
+  </div> <!-- /lab-card -->
+</body>
+</html>
+
+<h2>
+    Ассортимент магазина
+</h2>
+
+<ul>
+    <li>Куртки</li>
+    <li>Кепки</li>
+    <li>Термобелье</li>
+    <li>Рюкзаки</li>
+    <li>Брюки</li>
+    <li>Футболки</li>
+    <li>Перчатки</li>
+    <li>Шапки</li>
+    <li>Спортивные костюмы</li>
+</ul>
+
+<a href="/">
+    Вернуться на главную
+</a>
+
+</body>
+</html>
