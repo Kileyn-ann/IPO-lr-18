@@ -1,1 +1,30 @@
+{% extends 'shop/base.html' %}
 
+{% block content %}
+
+<h2>Оформление заказа</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label>Адрес доставки</label>
+        <input type="text" name="address" class="form-control" required>
+    </div>
+
+    <button class="btn btn-primary">Оформить</button>
+</form>
+
+<hr>
+
+<h4>Ваш заказ:</h4>
+
+<ul>
+    {% for item in items %}
+        <li>{{ item.product.name }} — {{ item.quantity }}</li>
+    {% endfor %}
+</ul>
+
+<p><strong>Итого:</strong> {{ total }} ₽</p>
+
+{% endblock %}
