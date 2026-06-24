@@ -1,1 +1,38 @@
+{% extends "shop/base.html" %}
 
+{% block content %}
+
+<h2>Корзина</h2>
+
+<table class="table table-dark table-bordered table-striped" style="width: 100%;">
+    <thead>
+        <tr>
+            <th style="white-space: nowrap;">Товар</th>
+            <th style="white-space: nowrap;">Количество</th>
+            <th style="white-space: nowrap;">Цена за шт.</th>
+            <th style="white-space: nowrap;">Сумма</th>
+        </tr>
+
+    {% for item in items %}
+    <tr>
+        <td>{{ item.product.name }}</td>
+        <td>
+            <form method="post" action="/cart/update/{{ item.id }}/">
+                {% csrf_token %}
+                <input type="number" name="quantity" value="{{ item.quantity }}">
+                <button class="btn btn-sm btn-primary">OK</button>
+            </form>
+        </td>
+        <td>{{ item.product.price }}</td>
+        <td>
+            <a href="/cart/remove/{{ item.id }}/" class="btn btn-danger btn-sm">Удалить</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h4>Итого: {{ total }} ₽</h4>
+
+<a href="/checkout/" class="btn btn-success">Оформить заказ</a>
+
+{% endblock %}
