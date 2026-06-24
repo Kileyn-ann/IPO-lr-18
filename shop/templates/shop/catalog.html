@@ -1,1 +1,53 @@
+{% extends "shop/base.html" %}
 
+{% block content %}
+
+<h2>Каталог</h2>
+
+<form method="get" class="row mb-4">
+    <div class="col-md-3">
+        <select name="category" class="form-control">
+            <option value="">Категория</option>
+            {% for c in categories %}
+                <option value="{{ c.id }}">{{ c.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <select name="manufacturer" class="form-control">
+            <option value="">Производитель</option>
+            {% for m in manufacturers %}
+                <option value="{{ m.id }}">{{ m.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="col-md-4">
+        <input type="text" name="search" placeholder="Поиск..." class="form-control">
+    </div>
+
+    <div class="col-md-2">
+        <button class="btn btn-primary w-100">Фильтр</button>
+    </div>
+</form>
+
+<div class="row">
+    {% for product in products %}
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5>{{ product.name }}</h5>
+                    <p>{{ product.price }} ₽</p>
+
+                    <a href="/catalog/{{ product.id }}/" class="btn btn-sm btn-info">Подробнее</a>
+                    <a href="/cart/add/{{ product.id }}/" class="btn btn-sm btn-success">В корзину</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>Нет товаров</p>
+    {% endfor %}
+</div>
+
+{% endblock %}
