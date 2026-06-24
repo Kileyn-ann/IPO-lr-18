@@ -1,1 +1,98 @@
+{% extends "shop/base.html" %}
 
+{% block title %}
+Главная
+{% endblock %}
+
+{% block content %}
+
+<div class="p-5 mb-4 bg-light rounded">
+
+    <h1>
+        Магазин одежды для активного отдыха
+    </h1>
+
+    <p>
+        Куртки, кепки, термобельё, рюкзаки и другая экипировка для путешествий и спорта.
+    </p>
+
+</div>
+
+<h2 class="mb-4">
+    Каталог товаров
+</h2>
+
+<div class="row">
+
+{% for product in products %}
+
+<div class="col-md-4 mb-4">
+
+    <div class="card h-100">
+
+        {% if product.product_photo %}
+            <img src="{{ product.product_photo.url }}"
+                 class="card-img-top"
+                 alt="{{ product.name }}">
+        {% endif %}
+
+        <div class="card-body">
+
+            <h5 class="card-title">
+                {{ product.name }}
+            </h5>
+
+            <p class="card-text">
+                {{ product.description|truncatechars:100 }}
+            </p>
+
+            <p>
+                <strong>
+                    Цена: {{ product.price }} руб.
+                </strong>
+            </p>
+
+            <p>
+                Категория:
+                {{ product.category }}
+            </p>
+
+            <p>
+                Производитель:
+                {{ product.manufacturer }}
+            </p>
+
+            <p>
+                Остаток:
+                {{ product.stock_quantity }}
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% empty %}
+
+<div class="alert alert-warning">
+
+    Пока нет товаров.
+
+    <br><br>
+
+    Сначала добавьте:
+
+    <ul>
+        <li>Категории</li>
+        <li>Производителей</li>
+        <li>Товары</li>
+    </ul>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}
